@@ -1,0 +1,10 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.github.mengweijin.logging.preview.LoggingPreviewAutoConfiguration
+
+
+
+
+
+
+

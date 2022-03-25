@@ -1,8 +1,0 @@
-spring:
-  thymeleaf:
-    cache: false
-logging:
-  file:
-    name: logs/application.log
-  preview:
-    enabled: true
