@@ -1,7 +1,9 @@
 package com.github.mengweijin.logging.previewer;
 
+import cn.hutool.core.util.StrUtil;
 import com.github.mengweijin.logging.previewer.entity.LogPath;
 import com.github.mengweijin.logging.previewer.service.LogPathService;
+import com.github.mengweijin.quickboot.framework.util.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -29,6 +31,7 @@ public class DefaultApplicationRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         String logAbsolutePath = this.getApplicationLogAbsolutePath();
+        logAbsolutePath = StrUtil.replace(logAbsolutePath, Const.BACK_SLASH, Const.SLASH);
         Long count = logPathService.lambdaQuery()
                 .ge(LogPath::getPath, logAbsolutePath)
                 .count();
@@ -42,6 +45,6 @@ public class DefaultApplicationRunner implements ApplicationRunner {
         if(File.separatorChar != loggingFileName.charAt(0)) {
             sb.append(File.separatorChar);
         }
-        return sb.append(loggingFileName).toString();
+        return StrUtil.replace(sb.append(loggingFileName).toString(), Const.BACK_SLASH, Const.SLASH);
     }
 }
