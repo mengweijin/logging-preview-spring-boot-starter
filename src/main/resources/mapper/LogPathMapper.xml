@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.mengweijin.logging.previewer.mapper.LogPathMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.github.mengweijin.logging.previewer.entity.LogPath">
+    <result column="ID" property="id" />
+    <result column="CREATE_BY" property="createBy" />
+    <result column="CREATE_TIME" property="createTime" />
+    <result column="UPDATE_BY" property="updateBy" />
+    <result column="UPDATE_TIME" property="updateTime" />
+    <result column="APPLICATION" property="application" />
+    <result column="PATH" property="path" />
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID,
+        CREATE_BY,
+        CREATE_TIME,
+        UPDATE_BY,
+        UPDATE_TIME,
+        APPLICATION, PATH
+    </sql>
+
+</mapper>

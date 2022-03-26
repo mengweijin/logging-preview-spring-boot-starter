@@ -7,7 +7,16 @@
         <div id="index">
             <el-container>
                 <el-header>
-                    <span style="color:red;">实时日志预览</span>
+                    <el-menu
+                            :default-active="activeIndex"
+                            mode="horizontal"
+                            @select="handleSelect"
+                            background-color="#545c64"
+                            text-color="#fff"
+                            active-text-color="#ffd04b">
+                        <el-menu-item index="0" style="color:red;font-weight:bold;">实时日志预览</el-menu-item>
+                        <el-menu-item index="1">Log Path：<el-input v-model="logPath" clearable> </el-input></el-menu-item>
+                    </el-menu>
                 </el-header>
 
                 <el-main>
@@ -36,11 +45,16 @@
             el: '#index',
             data: function() {
                 return {
+                    activeIndex: '',
                     logContent: '',
-                    autoBottom: false
+                    autoBottom: false,
+                    logPath: null
                 }
             },
             methods: {
+                handleSelect(key, keyPath) {
+                    console.log(key, keyPath);
+                },
                 clearScreen() {
                     this.logContent = ''
                 },

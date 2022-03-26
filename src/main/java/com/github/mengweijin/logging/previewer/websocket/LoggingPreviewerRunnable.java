@@ -1,7 +1,7 @@
-package com.github.mengweijin.logging.preview;
+package com.github.mengweijin.logging.previewer.websocket;
 
 import cn.hutool.http.HtmlUtil;
-import com.github.mengweijin.logging.preview.util.WebSocketUtils;
+import com.github.mengweijin.logging.previewer.util.WebSocketUtils;
 import lombok.extern.slf4j.Slf4j;
 import javax.websocket.Session;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.util.Map;
  * @date 2022/3/25
  */
 @Slf4j
-public class LoggingPreviewRunnable implements Runnable {
+public class LoggingPreviewerRunnable implements Runnable {
 
     private static final int ONE_HUNDRED_KB = 1024 * 100;
 
@@ -24,7 +24,7 @@ public class LoggingPreviewRunnable implements Runnable {
 
     private final String logPath;
 
-    public LoggingPreviewRunnable(Session session, Map<String, Session> sessionMap, String logPath) {
+    public LoggingPreviewerRunnable(Session session, Map<String, Session> sessionMap, String logPath) {
         this.session = session;
         this.sessionMap = sessionMap;
         this.logPath = logPath;

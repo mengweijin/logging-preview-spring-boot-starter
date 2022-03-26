@@ -1,39 +1,17 @@
-package com.github.mengweijin.logging.preview;
+package com.github.mengweijin.logging.previewer.cofig;
 
-import com.github.mengweijin.logging.preview.controller.LoggingPreviewController;
-import com.github.mengweijin.logging.preview.service.LoggingPreviewService;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.socket.server.standard.ServerEndpointExporter;
-
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @author mengweijin
  * @date 2022/3/24
  */
-@Profile({"!prod"})
-@ConditionalOnProperty(prefix = "logging", name = "preview.enabled", havingValue = "true")
 @Configuration
-public class LoggingPreviewAutoConfiguration {
-
-    @Bean
-    public WebSocketServer webSocketServer() {
-        return new WebSocketServer();
-    }
-
-    @Bean
-    public LoggingPreviewController loggingPreviewController() {
-        return new LoggingPreviewController();
-    }
-
-    @Bean
-    public LoggingPreviewService loggingPreviewService() {
-        return new LoggingPreviewService();
-    }
+public class LogPreviewConfiguration {
 
     /**
      * 扫描并注册所有携带 @ServerEndpoint 注解的实例。 @ServerEndpoint("/websocket")
