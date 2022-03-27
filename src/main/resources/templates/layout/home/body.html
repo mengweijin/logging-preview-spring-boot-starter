@@ -39,12 +39,12 @@ layui.use(['layer','table'], function(){
 		cols: [
 			[
 				{field: 'id', title: 'ID', fixed: 'left', width: 200},
-				{field: 'application', title: '应用名称', width: 260},
-				{field: 'path', title: '日志位置'},
-				{field: 'createTime', title: '创建时间', width: 200, sort: false, templet : "<div>{{layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"},
-				{field: 'updateTime', title: '修改时间', width: 200, sort: true, templet : "<div>{{layui.util.toDateString(d.updateTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"},
+				{field: 'application', title: 'Application', width: 260},
+				{field: 'path', title: 'Log Location'},
+				{field: 'createTime', title: 'Create Time', width: 200, sort: false, templet : "<div>{{layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"},
+				{field: 'updateTime', title: 'Update Time', width: 200, sort: true, templet : "<div>{{layui.util.toDateString(d.updateTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"},
 				//下面这里的toolbar值是模板元素的选择器
-                {fixed: 'right', title: '操作', align:'center', width: 180, toolbar: '#toolbarTpl'}
+                {fixed: 'right', title: 'Operations', align:'center', width: 180, toolbar: '#toolbarTpl'}
 			]
 		]
 	});
