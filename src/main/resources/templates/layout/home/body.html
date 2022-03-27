@@ -1,0 +1,75 @@
+<!--/** 与 layout/admin/body 的区别是添加了 style="left: 0px;" 样式 **/-->
+<div class="layui-body" style="left: 0px;">
+	<!-- 内容主体区域 -->
+	<div style="padding: 15px;">
+		<table id="logPathDataTable" lay-filter="logPathDataTable-filter"></table>
+
+		<script id="toolbarTpl" type="text/html">
+			<div class="layui-btn-group">
+				<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" style="border-style: none; color: #1E9FFF;" lay-event="preview" title="Preview">
+					<i class="layui-icon layui-icon-list" style="font-weight: bold;"></i>
+				</button>
+				<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" style="border-style: none; color: #1E9FFF;" lay-event="edit" title="Edit">
+					<i class="layui-icon layui-icon-edit"></i>
+				</button>
+				<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" style="border-style: none; color: #FF5722;" lay-event="delete" title="Delete">
+					<i class="layui-icon layui-icon-delete"></i>
+				</button>
+			</div>
+		</script>
+	</div>
+
+</div>
+<script>
+layui.use(['layer','table'], function(){
+  	let layer = layui.layer;
+  	let table = layui.table;
+	table.render({
+		elem: '#logPathDataTable',
+		url: '/log-path/list',
+		parseData: function(res){
+			return {
+				"code": 0, //解析接口状态
+				"msg": '', //解析提示文本
+				"count": res.total, //解析数据长度
+				"data": res.records   //解析数据列表
+			};
+		},
+		page: true,
+		cols: [
+			[
+				{field: 'id', title: 'ID', fixed: 'left', width: 200},
+				{field: 'application', title: '应用名称', width: 260},
+				{field: 'path', title: '日志位置'},
+				{field: 'createTime', title: '创建时间', width: 200, sort: false, templet : "<div>{{layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"},
+				{field: 'updateTime', title: '修改时间', width: 200, sort: true, templet : "<div>{{layui.util.toDateString(d.updateTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"},
+				//下面这里的toolbar值是模板元素的选择器
+                {fixed: 'right', title: '操作', align:'center', width: 180, toolbar: '#toolbarTpl'}
+			]
+		]
+	});
+
+	//监听工具条
+	table.on('tool(logPathDataTable-filter)', function(obj){
+		let row = obj.data;
+		switch (obj.event) {
+			case 'edit':
+				layer.msg("Edit")
+				//mwj.loadPage("#content", "/sys/user/edit/" + row.id, null);
+				break;
+			case 'delete':
+				layer.msg("Delete")
+<!--				layer.confirm("确认重置用户【" + row.nick + "】的密码吗？", function(index){-->
+<!--					$.post("/sys/user/resetPassword/" + row.id, null, function (result) {-->
+<!--						layer.close(index);-->
+<!--						mwj.msg(result);-->
+<!--					});-->
+<!--				});-->
+				break;
+			default:
+				break;
+		}
+	});
+});
+
+</script>

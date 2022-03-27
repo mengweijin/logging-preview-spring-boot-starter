@@ -2,6 +2,7 @@ package com.github.mengweijin.logging.previewer.controller;
 
 import com.github.mengweijin.logging.previewer.entity.LogPath;
 import com.github.mengweijin.logging.previewer.service.LogPathService;
+import com.github.mengweijin.quickboot.mybatis.Pager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -41,8 +42,16 @@ public class LogPathController {
     private LogPathService logPathService;
 
     @GetMapping("/list")
-    public List<LogPath> list() {
-        return logPathService.list();
+    public Pager<LogPath> list() {
+        List<LogPath> list = logPathService.list();
+
+        Pager<LogPath> pager = new Pager<>();
+        pager.setRecords(list);
+        pager.setTotal(list.size());
+        pager.setSize(list.size());
+        pager.setCurrent(1);
+
+        return pager;
     }
 
     /**
