@@ -38,8 +38,8 @@ layui.use(['layer','table'], function(){
 		page: true,
 		cols: [
 			[
-				{field: 'id', title: 'ID', fixed: 'left', width: 200},
-				{field: 'application', title: 'Application', width: 260},
+				{field: 'id', title: 'ID', fixed: 'left', width: 200, hide: true},
+				{field: 'application', title: 'Application', width: 240},
 				{field: 'path', title: 'Log Location'},
 				{field: 'createTime', title: 'Create Time', width: 200, sort: false, templet : "<div>{{layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"},
 				{field: 'updateTime', title: 'Update Time', width: 200, sort: true, templet : "<div>{{layui.util.toDateString(d.updateTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"},
