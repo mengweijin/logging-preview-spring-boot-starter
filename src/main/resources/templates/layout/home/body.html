@@ -53,6 +53,9 @@ layui.use(['layer','table'], function(){
 	table.on('tool(logPathDataTable-filter)', function(obj){
 		let row = obj.data;
 		switch (obj.event) {
+			case 'preview':
+				window.open("/log-path/preview/" + row.id);
+				break;
 			case 'edit':
 				layer.msg("Edit")
 				//mwj.loadPage("#content", "/sys/user/edit/" + row.id, null);

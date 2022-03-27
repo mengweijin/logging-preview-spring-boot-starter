@@ -1,10 +1,13 @@
 package com.github.mengweijin.logging.previewer.controller;
 
+import cn.hutool.system.HostInfo;
 import com.github.mengweijin.logging.previewer.entity.LogPath;
 import com.github.mengweijin.logging.previewer.service.LogPathService;
 import com.github.mengweijin.quickboot.mybatis.Pager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,8 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.List;
@@ -29,7 +34,7 @@ import java.util.List;
  */
 @Slf4j
 @Validated
-@RestController
+@Controller
 @RequestMapping("/log-path")
 public class LogPathController {
 
@@ -41,7 +46,33 @@ public class LogPathController {
     @Autowired
     private LogPathService logPathService;
 
+    @Autowired
+    private HttpServletRequest request;
+
+    @Autowired
+    private Environment environment;
+
+    private static String address;
+
+    private static String port;
+
+    @PostConstruct
+    public void init(){
+        address = new HostInfo().getAddress();
+        address = address == null ? "localhost" : address;
+        port = environment.getProperty("server.port", "8080");
+    }
+
+    @GetMapping("/preview/{id}")
+    public String preview(@PathVariable String id) {
+        request.setAttribute("ip", address);
+        request.setAttribute("port", port);
+        request.setAttribute("id", id);
+        return "layout/previewer/index";
+    }
+
     @GetMapping("/list")
+    @ResponseBody
     public Pager<LogPath> list() {
         List<LogPath> list = logPathService.list();
 
@@ -62,6 +93,7 @@ public class LogPathController {
      * @return LogPath
      */
     @GetMapping("/{id}")
+    @ResponseBody
     public LogPath getById(@PathVariable("id") Serializable id) {
         return logPathService.getById(id);
     }
