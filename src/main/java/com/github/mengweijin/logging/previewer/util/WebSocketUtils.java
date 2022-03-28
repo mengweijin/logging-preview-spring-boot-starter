@@ -28,7 +28,9 @@ public final class WebSocketUtils {
 
     public static void close(Session session) {
         try {
-            session.close();
+            if(session != null) {
+                session.close();
+            }
         } catch (Exception e) {
             // ignore
         }

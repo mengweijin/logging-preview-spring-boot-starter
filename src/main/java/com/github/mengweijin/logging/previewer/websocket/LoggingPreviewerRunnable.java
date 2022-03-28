@@ -71,6 +71,9 @@ public class LoggingPreviewerRunnable implements Runnable {
             }
         } catch (IOException e) {
             log.error("log preview read error!", e);
+        } finally {
+            // 不管什么原因导致线程终止，一律关闭 session.
+            WebSocketUtils.close(session);
         }
 
         log.info("WebSocketServer task end. [sessionId={}]", session.getId());
