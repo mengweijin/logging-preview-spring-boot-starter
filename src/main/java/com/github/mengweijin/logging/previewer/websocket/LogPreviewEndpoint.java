@@ -1,6 +1,8 @@
 package com.github.mengweijin.logging.previewer.websocket;
 
 import cn.hutool.extra.spring.SpringUtil;
+import com.github.mengweijin.logging.previewer.entity.LogPath;
+import com.github.mengweijin.logging.previewer.service.LogPathService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
@@ -16,13 +18,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * "ws://localhost:9000/websocket/log/{path}"
+ * "ws://localhost:9000/websocket/log/{id}"
  * @author mengweijin
  * @date 2022/3/24
  */
 @Slf4j
 @Component
-@ServerEndpoint("/websocket/log/{path}")
+@ServerEndpoint("/websocket/log/{id}")
 public class LogPreviewEndpoint {
 
     private static final Map<String, Session> SESSION_MAP = new ConcurrentHashMap<>();
@@ -31,12 +33,15 @@ public class LogPreviewEndpoint {
      * 连接建立成功调用的方法
      */
     @OnOpen
-    public void onOpen(@PathParam("path") String logPath, Session session) {
+    public void onOpen(@PathParam("id") String id, Session session) {
         SESSION_MAP.put(session.getId(), session);
+
+        LogPathService logPathService = SpringUtil.getBean(LogPathService.class);
+        LogPath logPath = logPathService.getById(id);
 
         // 获取日志信息
         ThreadPoolTaskExecutor threadPoolTaskExecutor = SpringUtil.getBean("loggingPreviewThreadPoolTaskExecutor");
-        threadPoolTaskExecutor.execute(new LoggingPreviewerRunnable(session, SESSION_MAP, logPath));
+        threadPoolTaskExecutor.execute(new LoggingPreviewerRunnable(session, SESSION_MAP, logPath.getPath()));
     }
 
     /**

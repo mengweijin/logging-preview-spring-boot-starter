@@ -7,5 +7,7 @@ info:
 server:
   port: 9999
 spring:
+  thymeleaf:
+    cache: false
   application:
     name: logging-previewer

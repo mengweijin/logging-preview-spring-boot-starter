@@ -64,10 +64,12 @@ public class LogPathController {
     }
 
     @GetMapping("/preview/{id}")
-    public String preview(@PathVariable String id) {
+    public String preview(@PathVariable Long id) {
         request.setAttribute("ip", address);
         request.setAttribute("port", port);
-        request.setAttribute("id", id);
+
+        LogPath logPath = logPathService.getById(id);
+        request.setAttribute("logPath", logPath);
         return "layout/previewer/index";
     }
 

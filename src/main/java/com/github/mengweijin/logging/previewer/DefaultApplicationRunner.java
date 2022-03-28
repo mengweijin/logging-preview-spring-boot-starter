@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.github.mengweijin.logging.previewer.entity.LogPath;
 import com.github.mengweijin.logging.previewer.service.LogPathService;
 import com.github.mengweijin.quickboot.framework.util.Const;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -16,6 +17,7 @@ import java.io.File;
  * @author mengweijin
  * @date 2022/3/26
  */
+@Slf4j
 @Component
 public class DefaultApplicationRunner implements ApplicationRunner {
 
@@ -38,6 +40,10 @@ public class DefaultApplicationRunner implements ApplicationRunner {
         if(count == 0) {
             logPathService.addLogPath(applicationName, logAbsolutePath);
         }
+        log.debug("Please ignore this log! Just to test the style of the log display.");
+        log.info("Please ignore this log! Just to test the style of the log display.");
+        log.warn("Please ignore this log! Just to test the style of the log display.");
+        log.error("Please ignore this log! Just to test the style of the log display.");
     }
 
     public String getApplicationLogAbsolutePath() {
