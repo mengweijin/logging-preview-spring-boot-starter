@@ -25,8 +25,7 @@
 	<!--/** thymeleaf 中一定要使用 th:inline="javascript"，否则 [[${logPath}]] 从后端中取得的值是一个字符串，而不是一个 json 对象 **/-->
 	<script th:inline="javascript">
 		layui.use(['layer','table'], function(){
-			let layer = layui.layer;
-			let table = layui.table;
+			let $ = layui.$, layer = layui.layer, table = layui.table;
 			table.render({
 				elem: '#logPathDataTable',
 				url: '/log-path/list',
@@ -64,13 +63,13 @@
 						//mwj.loadPage("#content", "/sys/user/edit/" + row.id, null);
 						break;
 					case 'delete':
-						layer.msg("Delete")
-		<!--				layer.confirm("确认重置用户【" + row.nick + "】的密码吗？", function(index){-->
-		<!--					$.post("/sys/user/resetPassword/" + row.id, null, function (result) {-->
-		<!--						layer.close(index);-->
-		<!--						mwj.msg(result);-->
-		<!--					});-->
-		<!--				});-->
+						layer.confirm("Are you sure you want to delete【" + row.path + "】?", function(index){
+							$.del("/log-path/" + row.id, null, function (result) {
+								obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+								layer.close(index);
+								layer.msg("Operate successfully");
+							});
+						});
 						break;
 					default:
 						break;
