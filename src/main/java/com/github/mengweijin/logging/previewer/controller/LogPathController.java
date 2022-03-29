@@ -107,6 +107,7 @@ public class LogPathController {
      * @param logPath logPath
      */
     @PostMapping
+    @ResponseBody
     public void add(@Valid @RequestBody LogPath logPath) {
         logPathService.addLogPath(logPath.getApplication(), logPath.getPath());
     }
@@ -118,6 +119,7 @@ public class LogPathController {
      * @param logPath logPath
      */
     @PutMapping
+    @ResponseBody
     public void update(@Valid @RequestBody LogPath logPath) {
         logPathService.updateById(logPath);
     }
@@ -129,6 +131,7 @@ public class LogPathController {
      * @param id id
      */
     @DeleteMapping("/{id}")
+    @ResponseBody
     public void delete(@PathVariable("id") Serializable id) {
         logPathService.removeById(id);
     }
