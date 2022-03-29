@@ -68,8 +68,10 @@ public class LoggingPreviewerRunnable implements Runnable {
 
                 // 读取完毕后,记录最后一次读取的指针位置
                 lastPointer = randomAccessFile.getFilePointer();
+
+                Thread.sleep(1000L);
             }
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             log.error("log preview read error!", e);
         } finally {
             // 不管什么原因导致线程终止，一律关闭 session.

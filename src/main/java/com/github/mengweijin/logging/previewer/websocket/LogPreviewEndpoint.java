@@ -80,7 +80,7 @@ public class LogPreviewEndpoint {
     @OnError
     public void onError(Session session, Throwable e) {
         SESSION_MAP.remove(session.getId());
-        log.error("Websocket session id = " + session.getId() + " error!", e);
+        log.error(e.getMessage());
     }
 
     /**

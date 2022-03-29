@@ -1,12 +1,15 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <!--/** 与 layout/admin/body 的区别是添加了 style="left: 0px;" 样式 **/-->
-<div class="layui-body" style="left: 0px;">
+<div th:fragment="body" class="layui-body" style="left: 0px;">
 	<!-- 内容主体区域 -->
 	<div style="padding: 15px;">
 		<div style="text-align: center; margin-bottom: 15px;">
 			<span style="color: red; font-size: 20px;">实时日志预览 - <span th:text="${logPath.getApplication() + ' - ' + logPath.getPath()}"></span></span>
 		</div>
 		<!-- 显示区。-->
-		<div id="logPreviewContent" style="background-color: #FAFAFA; overflow: auto;"></div>
+		<div id="logPreviewContent" contenteditable="false" style="background-color: #FAFAFA; overflow: auto;"></div>
 
 		<!-- 操作栏 -->
 		<div class="layui-form" style="text-align: center; margin-top: 10px; margin-bottom: 10px;" lay-filter="operate-filter">
@@ -19,106 +22,105 @@
 			</div>
 		</div>
 	</div>
+	<!--/** thymeleaf 中一定要使用 th:inline="javascript"，否则 [[${logPath}]] 从后端中取得的值是一个字符串，而不是一个 json 对象 **/-->
+	<script th:inline="javascript">
+		layui.use(['jquery', 'form', 'quickboot'], function(){
+			var $ = layui.$, form = layui.form, quickboot = layui.quickboot;
+			var ip = [[${ip}]];
+			var port = [[${port}]];
+			var logPath = [[${logPath}]];
 
-</div>
-<!--/** thymeleaf 中一定要使用 th:inline="javascript"，否则 [[${logPath}]] 从后端中取得的值是一个字符串，而不是一个 json 对象 **/-->
-<script th:inline="javascript">
-layui.use(['jquery', 'form', 'quickboot'], function(){
-  	var $ = layui.$, form = layui.form, quickboot = layui.quickboot;
-  	var ip = [[${ip}]];
-	var port = [[${port}]];
-	var logPath = [[${logPath}]];
+			setLogDivHeight();
 
-	setLogDivHeight();
+			form.on('checkbox(autoScroll-filter)', function(data){
+				// console.log(data.elem); //得到checkbox原始DOM对象
+				// console.log(data.elem.checked); //是否被选中，true或者false
+				// console.log(data.value); //复选框value值，也可以通过data.elem.value得到
+				// console.log(data.othis); //得到美化后的DOM对象
+			});
 
-  	form.on('checkbox(autoScroll-filter)', function(data){
-		// console.log(data.elem); //得到checkbox原始DOM对象
-		// console.log(data.elem.checked); //是否被选中，true或者false
-		// console.log(data.value); //复选框value值，也可以通过data.elem.value得到
-		// console.log(data.othis); //得到美化后的DOM对象
-	});
+			startWebSocket(ip, port, logPath.id);
 
-	startWebSocket(ip, port, logPath.id);
+			$("#previewer-body-scroll-to-bottom").click(function(){
+				scrollToBottom();
+			});
 
-  	$("#previewer-body-scroll-to-bottom").click(function(){
-		scrollToBottom();
-	});
+			$("#previewer-body-clear-screen").click(function(){
+				$("#logPreviewContent").empty();
+			});
 
-	$("#previewer-body-clear-screen").click(function(){
-		$("#logPreviewContent").empty();
-	});
-
-  	function setLogDivHeight(){
-  		var $logPreviewContent = $("#logPreviewContent");
-		<!--/** $logPreviewContent.height(document.body.clientHeight - 300);  和下面一行作用相同。**/-->
-  		$logPreviewContent.css('height', $(window).height() - 240);
-  		$logPreviewContent.css("width", "100%");
-		<!--/**
-			var height = $(window).height();
-			网页可见区域宽： document.body.clientWidth
-			网页可见区域高： document.body.clientHeight
-			网页可见区域宽： document.body.offsetWidth (包括边线的宽)
-			网页可见区域高： document.body.offsetHeight (包括边线的高)
-			网页正文全文宽： document.body.scrollWidth
-			网页正文全文高： document.body.scrollHeight
-			网页被卷去的高： document.body.scrollTop
-			网页被卷去的左： document.body.scrollLeft
-			网页正文部分上： window.screenTop
-			网页正文部分左： window.screenLeft
-			屏幕分辨率的高： window.screen.height
-			屏幕分辨率的宽： window.screen.width
-			屏幕可用工作区高度： window.screen.availHeight
-			屏幕可用工作区宽度： window.screen.availWidth
-		**/-->
-  	}
-
-  	function scrollToBottom() {
-  		var logPreviewContent = document.getElementById('logPreviewContent');
-  		logPreviewContent.scrollTop = logPreviewContent.scrollHeight;
-  	}
-
-  	function startWebSocket(ip, port, id) {
-  		// websocket对象
-		var websocket = null;
-
-		// 判断当前浏览器是否支持 WebSocket
-		if ('WebSocket' in window) {
-			var url = "ws://" + ip + ":" + port + "/websocket/log/" + id;
-			websocket = new WebSocket(url);
-		} else {
-			console.error("Your Browser not support WebSocket.");
-		}
-
-		// 连接发生错误的回调方法
-		websocket.onerror = function (e) {
-			console.error("WebSocket connect error.");
-		};
-
-		// 连接成功建立的回调方法
-		websocket.onopen = function () {
-			console.log("WebSocket connected.")
-		};
-
-		// 接收到消息的回调方法
-		websocket.onmessage = function (event) {
-			// 追加日志内容
-			if (event.data) {
-				$("#logPreviewContent").append(event.data);
-				// 开启自动滚动到底部
-				// var values = quickboot.getCheckBoxValues('[lay-filter=operate-filter] input[type=checkbox][name=scroll]:checked');
-				var operateFormData = form.val("operate-filter");
-				if(operateFormData.scroll=='auto') {
-					scrollToBottom();
-				}
+			function setLogDivHeight(){
+				var $logPreviewContent = $("#logPreviewContent");
+				<!--/** $logPreviewContent.height(document.body.clientHeight - 300);  和下面一行作用相同。**/-->
+				$logPreviewContent.css('height', $(window).height() - 240);
+				$logPreviewContent.css("width", "100%");
+				<!--/**
+					var height = $(window).height();
+					网页可见区域宽： document.body.clientWidth
+					网页可见区域高： document.body.clientHeight
+					网页可见区域宽： document.body.offsetWidth (包括边线的宽)
+					网页可见区域高： document.body.offsetHeight (包括边线的高)
+					网页正文全文宽： document.body.scrollWidth
+					网页正文全文高： document.body.scrollHeight
+					网页被卷去的高： document.body.scrollTop
+					网页被卷去的左： document.body.scrollLeft
+					网页正文部分上： window.screenTop
+					网页正文部分左： window.screenLeft
+					屏幕分辨率的高： window.screen.height
+					屏幕分辨率的宽： window.screen.width
+					屏幕可用工作区高度： window.screen.availHeight
+					屏幕可用工作区宽度： window.screen.availWidth
+				**/-->
 			}
-		}
 
-		// 连接关闭的回调方法
-		websocket.onclose = function () {
-			console.log("WebSocket connect closed.")
-		};
-  	}
+			function scrollToBottom() {
+				var logPreviewContent = document.getElementById('logPreviewContent');
+				logPreviewContent.scrollTop = logPreviewContent.scrollHeight;
+			}
 
-});
+			function startWebSocket(ip, port, id) {
+				// websocket对象
+				var websocket = null;
 
-</script>
+				// 判断当前浏览器是否支持 WebSocket
+				if ('WebSocket' in window) {
+					var url = "ws://" + ip + ":" + port + "/websocket/log/" + id;
+					websocket = new WebSocket(url);
+				} else {
+					console.error("Your Browser not support WebSocket.");
+				}
+
+				// 连接发生错误的回调方法
+				websocket.onerror = function (e) {
+					console.error("WebSocket connect error.");
+				};
+
+				// 连接成功建立的回调方法
+				websocket.onopen = function () {
+					console.log("WebSocket connected.")
+				};
+
+				// 接收到消息的回调方法
+				websocket.onmessage = function (event) {
+					// 追加日志内容
+					if (event.data) {
+						$("#logPreviewContent").append(event.data);
+						// 开启自动滚动到底部
+						// var values = quickboot.getCheckBoxValues('[lay-filter=operate-filter] input[type=checkbox][name=scroll]:checked');
+						var operateFormData = form.val("operate-filter");
+						if(operateFormData.scroll=='auto') {
+							scrollToBottom();
+						}
+					}
+				}
+
+				// 连接关闭的回调方法
+				websocket.onclose = function () {
+					console.log("WebSocket connect closed.")
+				};
+			}
+		});
+	</script>
+</div>
+
+</html>
