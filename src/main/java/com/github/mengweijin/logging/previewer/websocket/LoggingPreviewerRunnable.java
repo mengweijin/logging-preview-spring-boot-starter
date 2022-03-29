@@ -1,8 +1,11 @@
 package com.github.mengweijin.logging.previewer.websocket;
 
 import cn.hutool.http.HtmlUtil;
+import com.github.mengweijin.logging.previewer.util.LogFormatUtils;
 import com.github.mengweijin.logging.previewer.util.WebSocketUtils;
+import com.github.mengweijin.quickboot.framework.util.Const;
 import lombok.extern.slf4j.Slf4j;
+
 import javax.websocket.Session;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -53,12 +56,10 @@ public class LoggingPreviewerRunnable implements Runnable {
                     line = new String(line.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
                     // 对日志进行着色，更加美观。先对原始内容进行转义
                     line = HtmlUtil.escape(line);
+                    //处理日志等级背景颜色
+                    line = LogFormatUtils.wrapSpanTagWithDefaultCssStyle(line);
 
-                    //处理等级
-                    line = line.replace("WARN", "<span style='color: orange;'>WARN</span>");
-                    line = line.replace("ERROR", "<span style='color: red;'>ERROR</span>");
-
-                    sb.append(line).append("<br>");
+                    sb.append(line).append(Const.NEWLINE_HTML);
                 }
 
                 //发送

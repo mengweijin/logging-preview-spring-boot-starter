@@ -35,7 +35,7 @@ public class DefaultApplicationRunner implements ApplicationRunner {
         String logAbsolutePath = this.getApplicationLogAbsolutePath();
         logAbsolutePath = StrUtil.replace(logAbsolutePath, Const.BACK_SLASH, Const.SLASH);
         Long count = logPathService.lambdaQuery()
-                .ge(LogPath::getPath, logAbsolutePath)
+                .eq(LogPath::getPath, logAbsolutePath)
                 .count();
         if(count == 0) {
             logPathService.addLogPath(applicationName, logAbsolutePath);
