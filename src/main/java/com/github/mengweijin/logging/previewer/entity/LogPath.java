@@ -7,6 +7,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
 /**
  * <p>
  * 应用日志位置表
@@ -26,12 +29,14 @@ public class LogPath extends BaseEntity {
     /**
      * 应用名称
      */
+    @NotBlank
     @TableField("APPLICATION")
     private String application;
 
     /**
-     * 日志文件全路径名称
+     * 日志文件全路径名称，并且忽略大小写（Pattern.Flag.CASE_INSENSITIVE）
      */
+    @Pattern(regexp = "[\\s\\S]+(\\.log|\\.txt|\\.yaml|\\.yml|\\.properties)$", flags = {Pattern.Flag.CASE_INSENSITIVE})
     @TableField("PATH")
     private String path;
 

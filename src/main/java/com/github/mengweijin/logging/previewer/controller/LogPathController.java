@@ -1,8 +1,10 @@
 package com.github.mengweijin.logging.previewer.controller;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.system.HostInfo;
 import com.github.mengweijin.logging.previewer.entity.LogPath;
 import com.github.mengweijin.logging.previewer.service.LogPathService;
+import com.github.mengweijin.quickboot.framework.util.Const;
 import com.github.mengweijin.quickboot.mybatis.Pager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,6 +138,8 @@ public class LogPathController {
     @PutMapping
     @ResponseBody
     public void update(@Valid LogPath logPath) {
+        String path = StrUtil.replace(logPath.getPath(), Const.BACK_SLASH, Const.SLASH);
+        logPath.setPath(path);
         logPathService.updateById(logPath);
     }
 

@@ -5,14 +5,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.mengweijin.logging.previewer.entity.LogPath;
 import com.github.mengweijin.logging.previewer.mapper.LogPathMapper;
-import com.github.mengweijin.quickboot.framework.exception.QuickBootClientException;
 import com.github.mengweijin.quickboot.framework.util.Const;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Locale;
 
 /**
  * <p>
@@ -36,11 +33,10 @@ public class LogPathService extends ServiceImpl<LogPathMapper, LogPath> implemen
     private LogPathMapper logPathMapper;
 
     public void addLogPath(@NonNull String application, @NonNull String path) {
-        if(!path.toLowerCase(Locale.ROOT).endsWith(".log")) {
-            throw new QuickBootClientException("The log path suffix must be '.log'.");
-        }
         path = StrUtil.replace(path, Const.BACK_SLASH, Const.SLASH);
         logPathMapper.insert(new LogPath().setApplication(application).setPath(path));
     }
+
+
 }
 

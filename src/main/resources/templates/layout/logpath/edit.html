@@ -21,14 +21,14 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label">Path</label>
 				<div class="layui-input-block">
-					<input name="path" type="text" required lay-verify="required" placeholder="Log Path" autocomplete="off" class="layui-input" th:value="${logPath.path}"/>
+					<input name="path" type="text" required lay-verify="required|path" placeholder="Log Path" autocomplete="off" class="layui-input" th:value="${logPath.path}"/>
 				</div>
 			</div>
 
 			<div class="layui-form-item">
 				<div class="layui-input-block">
-					<button class="layui-btn" lay-submit lay-filter="submit-logpath-edit">立即提交</button>
-					<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+					<button class="layui-btn" lay-submit lay-filter="submit-logpath-edit">Submit</button>
+					<button type="reset" class="layui-btn layui-btn-primary">Reset</button>
 				</div>
 			</div>
 		</form>
@@ -39,6 +39,14 @@
 
 				quickboot.addLayuiFormRequiredStyle();
 
+				form.verify({
+				  path: function(value, item){ //value：表单的值、item：表单的DOM对象
+					if(!/[\s\S]+(\.log|\.txt|\.yaml|\.yml|\.properties)$/i.test(value)){
+					  return '文件后缀只能为 .log, .txt, .yaml, .yml, .properties';
+					}
+				  }
+				});
+
 				//监听提交
 				form.on('submit(submit-logpath-edit)', function(data){
 					//layer.msg(JSON.stringify(data.field));
@@ -46,19 +54,19 @@
 					if(data.field.id) {
 						// edit
 						$.put(url, data.field, function (result, textStatus, jqXHR) {
-							closeLayerAndRefreshParentTable(textStatus);
+							closeLayerAndRefreshParentTable(result, textStatus);
 						});
 					} else {
 						// add new
 						$.post(url, data.field, function (result, textStatus, jqXHR) {
-							closeLayerAndRefreshParentTable(textStatus);
+							closeLayerAndRefreshParentTable(result, textStatus);
 						});
 					}
 
 					return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
 				});
 
-				function closeLayerAndRefreshParentTable(textStatus) {
+				function closeLayerAndRefreshParentTable(result, textStatus) {
 					if('success' == textStatus){
 						quickboot.closeLayer();
 						quickboot.refreshLayerParentTable('logPathDataTable');
