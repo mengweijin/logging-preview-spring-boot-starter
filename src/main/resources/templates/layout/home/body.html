@@ -22,6 +22,9 @@
 				<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" style="border-style: none;" lay-event="preview" title="Preview">
 					<i class="layui-icon layui-icon-list" style="color: #1E9FFF; font-weight: bold;"></i>
 				</button>
+				<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" style="border-style: none;" lay-event="download" title="Download">
+					<i class="layui-icon layui-icon-download-circle" style="color: #1E9FFF; font-weight: bold;"></i>
+				</button>
 				<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" style="border-style: none;" lay-event="edit" title="Edit">
 					<i class="layui-icon layui-icon-edit" style="color: #1E9FFF;"></i>
 				</button>
@@ -58,7 +61,7 @@
 						{field: 'createTime', title: 'Create Time', width: 200, sort: false, templet : "<div>{{layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"},
 						{field: 'updateTime', title: 'Update Time', width: 200, sort: true, templet : "<div>{{layui.util.toDateString(d.updateTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"},
 						//下面这里的toolbar值是模板元素的选择器
-						{fixed: 'right', title: 'Operations', align:'center', width: 180, toolbar: '#toolbarTpl-logPathDataTable-operations'}
+						{fixed: 'right', title: 'Operations', align:'center', width: 200, toolbar: '#toolbarTpl-logPathDataTable-operations'}
 					]
 				]
 			});
@@ -90,6 +93,14 @@
 				switch (obj.event) {
 					case 'preview':
 						window.open("/log-path/preview/" + row.id);
+						break;
+					case 'download':
+						layer.open({
+						  title: 'Download Log File',
+						  type: 2,
+						  area: ['600px', '400px'],
+						  content: '/log-download?path=' + row.path
+						});
 						break;
 					case 'edit':
 						layer.open({

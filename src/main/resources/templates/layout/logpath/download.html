@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="include::head"></head>
+
+<body>
+	<div th:fragment="download" style="padding: 15px;">
+		aaaaa
+		<!--/** thymeleaf 中一定要使用 th:inline="javascript"，否则 [[${logPath}]] 从后端中取得的值是一个字符串，而不是一个 json 对象 **/-->
+		<script th:inline="javascript">
+			layui.use(['jquery', 'form', 'quickboot'], function(){
+				var $ = layui.jquery, form = layui.form, quickboot = layui.quickboot;
+
+
+			});
+		</script>
+	</div>
+</body>
+
+</html>

@@ -37,6 +37,5 @@ public class LogPathService extends ServiceImpl<LogPathMapper, LogPath> implemen
         logPathMapper.insert(new LogPath().setApplication(application).setPath(path));
     }
 
-
 }
 
