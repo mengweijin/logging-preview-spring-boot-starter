@@ -74,6 +74,7 @@ public class LoggingPreviewerRunnable implements Runnable {
             }
         } catch (IOException | InterruptedException e) {
             log.error("log preview read error!", e);
+            WebSocketUtils.send(session, e.toString());
         } finally {
             // 不管什么原因导致线程终止，一律关闭 session.
             WebSocketUtils.close(session);

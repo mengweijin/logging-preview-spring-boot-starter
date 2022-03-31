@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="include::head"></head>
+
+<body>
+	<div th:fragment="edit" style="padding: 15px;">
+		<form class="layui-form layui-form-pane" action="">
+			<div class="layui-form-item" th:if="${not #strings.isEmpty(logPath.id)}">
+				<label class="layui-form-label">ID</label>
+				<div class="layui-input-block">
+					<input name="id" type="text" readonly autocomplete="off" class="layui-input" th:value="${logPath.id}"/>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">Name</label>
+				<div class="layui-input-block">
+					<input name="application" type="text" required lay-verify="required" placeholder="Application Name" autocomplete="off" class="layui-input" th:value="${logPath.application}"/>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">Path</label>
+				<div class="layui-input-block">
+					<input name="path" type="text" required lay-verify="required" placeholder="Log Path" autocomplete="off" class="layui-input" th:value="${logPath.path}"/>
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-submit lay-filter="submit-logpath-edit">立即提交</button>
+					<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				</div>
+			</div>
+		</form>
+		<!--/** thymeleaf 中一定要使用 th:inline="javascript"，否则 [[${logPath}]] 从后端中取得的值是一个字符串，而不是一个 json 对象 **/-->
+		<script th:inline="javascript">
+			layui.use(['jquery', 'form', 'quickboot'], function(){
+				var $ = layui.jquery, form = layui.form, quickboot = layui.quickboot;
+
+				quickboot.addLayuiFormRequiredStyle();
+
+				//监听提交
+				form.on('submit(submit-logpath-edit)', function(data){
+					//layer.msg(JSON.stringify(data.field));
+					let url = '/log-path';
+					if(data.field.id) {
+						// edit
+						$.put(url, data.field, function (result, textStatus, jqXHR) {
+							closeLayerAndRefreshParentTable(textStatus);
+						});
+					} else {
+						// add new
+						$.post(url, data.field, function (result, textStatus, jqXHR) {
+							closeLayerAndRefreshParentTable(textStatus);
+						});
+					}
+
+					return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+				});
+
+				function closeLayerAndRefreshParentTable(textStatus) {
+					if('success' == textStatus){
+						quickboot.closeLayer();
+						quickboot.refreshLayerParentTable('logPathDataTable');
+						//parent.layui.table.reload('logPathDataTable');
+					}
+				}
+			});
+		</script>
+	</div>
+</body>
+
+</html>

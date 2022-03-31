@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.PostConstruct;
@@ -73,6 +73,21 @@ public class LogPathController {
         return "layout/previewer/index";
     }
 
+    @GetMapping("/edit")
+    public String edit(@RequestParam(required = false) Long id) {
+        LogPath logPath;
+        if(id == null) {
+            // add
+            logPath = new LogPath();
+        } else {
+            // edit
+            logPath = logPathService.getById(id);
+        }
+        request.setAttribute("logPath", logPath);
+        return "layout/logpath/edit";
+    }
+
+
     @GetMapping("/list")
     @ResponseBody
     public Pager<LogPath> list() {
@@ -108,7 +123,7 @@ public class LogPathController {
      */
     @PostMapping
     @ResponseBody
-    public void add(@Valid @RequestBody LogPath logPath) {
+    public void add(@Valid LogPath logPath) {
         logPathService.addLogPath(logPath.getApplication(), logPath.getPath());
     }
 
@@ -120,7 +135,7 @@ public class LogPathController {
      */
     @PutMapping
     @ResponseBody
-    public void update(@Valid @RequestBody LogPath logPath) {
+    public void update(@Valid LogPath logPath) {
         logPathService.updateById(logPath);
     }
 
