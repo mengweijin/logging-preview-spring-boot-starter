@@ -5,12 +5,38 @@
 
 <body>
 	<div th:fragment="download" style="padding: 15px;">
-		aaaaa
+
+		<table class="layui-table" lay-size="sm">
+			<colgroup>
+				<col>
+				<col width="100">
+			</colgroup>
+			<thead>
+				<tr>
+					<th>File</th>
+					<th>Download</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="file : ${fileList}">
+					<td th:text="${file}"></td>
+					<td>
+						<div class="layui-btn-group">
+							<button type="button" class="layui-btn layui-btn-primary layui-btn-sm" style="border-style: none;"
+									title="Download"
+									th:onclick="javascript:window.location.href='/log-download/byPath?path=' + encodeURIComponent([[${file}]])">
+								<i class="layui-icon layui-icon-download-circle" style="color: #1E9FFF; font-weight: bold;"></i>
+							</button>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
 		<!--/** thymeleaf 中一定要使用 th:inline="javascript"，否则 [[${logPath}]] 从后端中取得的值是一个字符串，而不是一个 json 对象 **/-->
 		<script th:inline="javascript">
-			layui.use(['jquery', 'form', 'quickboot'], function(){
-				var $ = layui.jquery, form = layui.form, quickboot = layui.quickboot;
-
+			layui.use(['jquery'], function(){
+				var $ = layui.jquery;
 
 			});
 		</script>

@@ -96,9 +96,10 @@
 						break;
 					case 'download':
 						layer.open({
-						  title: 'Download Log File',
+						  title: 'Download Files',
 						  type: 2,
-						  area: ['600px', '400px'],
+						  maxmin: true,
+						  area: ['800px', '500px'],
 						  content: '/log-download?path=' + row.path
 						});
 						break;

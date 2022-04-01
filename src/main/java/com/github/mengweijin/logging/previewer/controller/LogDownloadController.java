@@ -2,6 +2,7 @@ package com.github.mengweijin.logging.previewer.controller;
 
 import cn.hutool.core.io.FileUtil;
 import com.github.mengweijin.logging.previewer.service.LogPathService;
+import com.github.mengweijin.quickboot.framework.util.DownLoadUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
 import java.io.File;
 import java.util.ArrayList;
@@ -37,18 +39,25 @@ public class LogDownloadController {
     private HttpServletRequest request;
 
     @GetMapping
-    public String download(@NotBlank String path) {
+    public String downloadPage(@NotBlank String path) {
         List<String> list = new ArrayList<>();
         File file = FileUtil.file(path);
         if(file.isFile() && file.exists()) {
             File[] listFiles = file.getParentFile().listFiles();
             if(listFiles != null) {
-                Arrays.stream(listFiles).forEach(f -> list.add(f.getAbsolutePath()));
+                Arrays.stream(listFiles)
+                        .filter(f -> f.getName().contains(file.getName()))
+                        .forEach(f -> list.add(f.getAbsolutePath()));
             }
         }
-
-        request.setAttribute("pathList", list);
+        request.setAttribute("fileList", list);
         return "layout/logpath/download";
+    }
+
+    @GetMapping("/byPath")
+    public void download(@NotBlank String path, HttpServletRequest request, HttpServletResponse response) {
+        File file = FileUtil.file(path);
+        DownLoadUtils.download(file, request, response);
     }
 }
 
