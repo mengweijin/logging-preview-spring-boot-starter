@@ -40,10 +40,10 @@ public class DefaultApplicationRunner implements ApplicationRunner {
         if(count == 0) {
             logPathService.addLogPath(applicationName, logAbsolutePath);
         }
-        log.debug("Please ignore this log! Just to test the style of the log display.");
-        log.info("Please ignore this log! Just to test the style of the log display.");
-        log.warn("Please ignore this log! Just to test the style of the log display.");
-        log.error("Please ignore this log! Just to test the style of the log display.");
+        log.debug("Please ignore this log（请忽略这条日志）! Just to test the style of the log display.");
+        log.info("Please ignore this log（请忽略这条日志）! Just to test the style of the log display.");
+        log.warn("Please ignore this log（请忽略这条日志）! Just to test the style of the log display.");
+        log.error("Please ignore this log（请忽略这条日志）! Just to test the style of the log display.");
     }
 
     public String getApplicationLogAbsolutePath() {
