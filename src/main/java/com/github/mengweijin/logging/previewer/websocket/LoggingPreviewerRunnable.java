@@ -52,8 +52,8 @@ public class LoggingPreviewerRunnable implements Runnable {
 
                 // 读取一行,遇到换行符停止,不包含换行符
                 while((line = randomAccessFile.readLine()) != null) {
-                    // RandomAccessFile 默认使用 ISO-8859-1 编码，这里转为 UTF-8，否则会乱码
-                    line = new String(line.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+                    // RandomAccessFile 默认使用 ISO-8859-1 编码，这里转为 GBK，否则会乱码（UTF-8 也是不行的，必须 GBK，否则本地调试是好的，打成 jar 后运行就乱码了）
+                    line = new String(line.getBytes(StandardCharsets.ISO_8859_1), "GBK");
                     // 对日志进行着色，更加美观。先对原始内容进行转义
                     line = HtmlUtil.escape(line);
                     //处理日志等级背景颜色
