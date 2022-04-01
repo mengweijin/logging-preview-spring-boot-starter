@@ -8,6 +8,12 @@ server:
   port: 9999
 spring:
   thymeleaf:
-    cache: false
+    cache: true
   application:
     name: logging-previewer
+logging:
+  file:
+    name: logs/application.log
+  level:
+    root: info
+    com.github.mengweijin: info
