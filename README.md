@@ -1,6 +1,9 @@
 # logging-previewer
 
 <p align="center">
+    <a target="_blank" href="https://search.maven.org/search?q=g:%22com.github.mengweijin%22%20AND%20a:%22logging-previewer%22">
+		<img src="https://img.shields.io/maven-central/v/com.github.mengweijin/logging-previewer" />
+	</a>
 	<a target="_blank" href="https://github.com/mengweijin/logging-preview-spring-boot-starter/blob/master/LICENSE">
 		<img src="https://img.shields.io/badge/license-Apache2.0-blue.svg" />
 	</a>
@@ -21,6 +24,15 @@
 ### 使用
 在这里下载 fat jar：[logging-previewer-{version}-alpha.jar](https://gitee.com/mengweijin/logging-previewer/releases/)
 并上传到要查看日志的应用部署的服务器上。
+
+或者从 maven 中央仓库下载 fat jar:
+```xml
+<dependency>
+    <groupId>com.github.mengweijin</groupId>
+    <artifactId>logging-previewer</artifactId>
+    <version>1.0.0-alpha</version>
+</dependency>
+```
 
 ```bash
 # 启动
