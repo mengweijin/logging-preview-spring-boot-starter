@@ -19,7 +19,7 @@
 用浏览器在线实时刷新预览和下载 SpringBoot 项目的日志，不必再登陆到 Linux 服务器上去查看了。
 
 ### 使用
-下载 fat jar：[logging-previewer-{version}-alpha.jar](https://gitee.com/mengweijin/logging-previewer/releases/)
+在这里下载 fat jar：[logging-previewer-{version}-alpha.jar](https://gitee.com/mengweijin/logging-previewer/releases/)
 并上传到要查看日志的应用部署的服务器上。
 
 ```bash
