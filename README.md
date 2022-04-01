@@ -29,8 +29,9 @@ java -jar logging-previewer-{version}-alpha.jar
 # 然后浏览器访问：http://IP:9999
 ```
 
+添加你的应用日志文件路径到 logging-previewer：
 
-
+![image](docs/image/add.png)
 
 ### 预览
 ![image](docs/image/index.png)
