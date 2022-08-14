@@ -3,7 +3,7 @@ package com.github.mengweijin.logging.previewer.websocket;
 import cn.hutool.http.HtmlUtil;
 import com.github.mengweijin.logging.previewer.util.LogFormatUtils;
 import com.github.mengweijin.logging.previewer.util.WebSocketUtils;
-import com.github.mengweijin.quickboot.framework.util.Const;
+import com.github.mengweijin.quickboot.util.Const;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.websocket.Session;

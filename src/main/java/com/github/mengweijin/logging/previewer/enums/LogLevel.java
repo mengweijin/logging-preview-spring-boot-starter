@@ -1,12 +1,13 @@
 package com.github.mengweijin.logging.previewer.enums;
 
 import cn.hutool.core.util.ReUtil;
-import com.github.mengweijin.quickboot.framework.util.Const;
+import com.github.mengweijin.quickboot.util.Const;
 import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.regex.Pattern;
+
 import static java.util.regex.Pattern.CASE_INSENSITIVE;
 
 /**

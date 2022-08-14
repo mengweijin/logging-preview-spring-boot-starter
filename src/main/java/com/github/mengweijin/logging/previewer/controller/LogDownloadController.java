@@ -2,7 +2,7 @@ package com.github.mengweijin.logging.previewer.controller;
 
 import cn.hutool.core.io.FileUtil;
 import com.github.mengweijin.logging.previewer.service.LogPathService;
-import com.github.mengweijin.quickboot.framework.util.DownLoadUtils;
+import com.github.mengweijin.quickboot.util.DownLoadUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

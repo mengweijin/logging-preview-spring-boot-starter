@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.mengweijin.logging.previewer.entity.LogPath;
 import com.github.mengweijin.logging.previewer.mapper.LogPathMapper;
-import com.github.mengweijin.quickboot.framework.util.Const;
+import com.github.mengweijin.quickboot.util.Const;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

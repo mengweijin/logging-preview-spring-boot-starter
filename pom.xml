@@ -3,29 +3,34 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>quickboot-parent</artifactId>
-        <groupId>com.github.mengweijin</groupId>
-        <version>1.0.42</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.2</version>
+        <relativePath/>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>logging-previewer</artifactId>
-    <version>1.0.0-alpha</version>
+    <version>1.0.1-alpha</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <quickboot.version>1.1.0</quickboot.version>
+        <quickboot-layui.version>1.1.0</quickboot-layui.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.github.mengweijin</groupId>
-            <artifactId>quickboot-mybatis-plus</artifactId>
+            <artifactId>quickboot-spring-boot-starter</artifactId>
+            <version>${quickboot.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.mengweijin</groupId>
             <artifactId>quickboot-layui</artifactId>
+            <version>${quickboot-layui.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -37,19 +42,8 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.testable</groupId>
-            <artifactId>testable-all</artifactId>
-            <version>${testable.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -58,7 +52,7 @@
             <plugin>
                 <groupId>com.github.mengweijin</groupId>
                 <artifactId>code-generator-maven-plugin</artifactId>
-                <version>1.0.12</version>
+                <version>1.0.15</version>
                 <configuration>
                     <parameters>
                         <outputPackage>com.github.mengweijin.logging.previewer</outputPackage>
@@ -77,7 +71,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring.boot.version}</version>
+<!--                <version>${spring.boot.version}</version>-->
                 <executions>
                     <execution>
                         <goals>

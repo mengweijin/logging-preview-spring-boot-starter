@@ -3,7 +3,7 @@ package com.github.mengweijin.logging.previewer;
 import cn.hutool.core.util.StrUtil;
 import com.github.mengweijin.logging.previewer.entity.LogPath;
 import com.github.mengweijin.logging.previewer.service.LogPathService;
-import com.github.mengweijin.quickboot.framework.util.Const;
+import com.github.mengweijin.quickboot.util.Const;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
