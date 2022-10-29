@@ -21,6 +21,8 @@
 ## Description
 用浏览器在线实时刷新预览和下载 SpringBoot 项目的日志，不必再登陆到 Linux 服务器上去查看了。
 
+有些服务器使用动态密码（比如半小时密码就过期了），每次都要去专门的平台查看密码，再连接服务器查看应用日志，非常繁琐。
+
 ### 使用
 在这里下载 fat jar：[logging-previewer-{version}-alpha.jar](https://gitee.com/mengweijin/logging-previewer/releases/)
 并上传到要查看日志的应用部署的服务器上。
